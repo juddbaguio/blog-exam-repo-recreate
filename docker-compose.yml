@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  db:
+    env_file:
+      - .env
+    container_name: 'blog_db'
+    platform: linux/x86_64
+    build: 
+      context: .
+      dockerfile: db.Dockerfile
+    networks:
+      - default
+    restart: always
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_DATABASE: "${DB_SCHEMA}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_TCP_PORT: "${DB_PORT}"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password --sql_mode=""
+
+networks:
+  default:
+volumes:
+  mysql_data:
