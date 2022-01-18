@@ -1,15 +1,12 @@
 package api
 
 import (
-	"encoding/json"
-	"net/http"
+	"github.com/juddbaguio/blog-exam-repo-recreate/pkg/domain/article"
 )
 
 func (s *Server) SetupArticleRoutes() {
-	s.Router.HandleFunc("/article", func(w http.ResponseWriter, r *http.Request) {
-		json.NewEncoder(w).Encode(map[string]string{
-			"message": s.Article.CreateArticle("test arg").Error(),
-		})
-	}).Methods("GET")
+	a := article.NewArticleService(s.logic)
+	s.Router.HandleFunc("/article", a.CreateArticle).Methods("POST")
+	s.Router.HandleFunc("/article/{articleId}", a.ReadArticleById).Methods("GET")
 
 }

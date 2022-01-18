@@ -10,22 +10,19 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/juddbaguio/blog-exam-repo-recreate/pkg/domain/article"
+	"github.com/juddbaguio/blog-exam-repo-recreate/pkg/logic"
 )
 
 type Server struct {
 	Router *mux.Router
-	DB     interface{}
-
-	Article article.Repository
+	logic  logic.Logic
 }
 
-func InitServer(db interface{}) (*Server, error) {
+func InitServer(logic logic.Logic) (*Server, error) {
 	router := mux.NewRouter()
 	s := &Server{
-		Router:  router,
-		DB:      db,
-		Article: article.NewArticleService(db),
+		Router: router,
+		logic:  logic,
 	}
 
 	s.InitRoutes()

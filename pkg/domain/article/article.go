@@ -1,15 +1,15 @@
 package article
 
+import (
+	"github.com/juddbaguio/blog-exam-repo-recreate/pkg/logic"
+)
+
 type articleService struct {
-	DB interface{}
+	logic logic.Logic
 }
 
-type Repository interface {
-	CreateArticle(article string) error
-}
-
-func NewArticleService(db interface{}) Repository {
+func NewArticleService(logic logic.Logic) *articleService {
 	return &articleService{
-		DB: db,
+		logic: logic,
 	}
 }
